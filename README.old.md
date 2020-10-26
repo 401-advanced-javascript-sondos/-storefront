@@ -19,3 +19,12 @@ For this assignment, you will be starting the process of creating an e-Commerce 
 ## UML1:
 
 ![img](uml1.jpg)
+
+
+## Virtual Store Phase 2:
+Continue work on the e-Commerce storefront, breaking up the store into multiple reducers and sharing functionality/data between components
+
+
+## UML2:
+
+![img](uml2.jpg) 
