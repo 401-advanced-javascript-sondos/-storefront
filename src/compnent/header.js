@@ -1,16 +1,18 @@
 import React from 'react'
-import { CardHeader } from '@material-ui/core';
-import{Navbar ,Form ,FormLabel} from 'react-bootstrap'
+
+import { Grid, AppBar, CssBaseline, Toolbar, Typography  } from '@material-ui/core';
 export default function Header() {
     return (
-        <>
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">OUR STORE</Navbar.Brand>
-                {/* <Form inline className="mr-auto">
-                    <FormLabel column="sm"  >cart (0) </FormLabel>
-                    <Button variant="outline-info">Search</Button>
-                </Form> */}
-            </Navbar>
+        <>            
+        <CssBaseline />
+        <AppBar position="static" elevation={0} className="MuiAppBar-root">
+            <Toolbar className="">
+                <Grid container justify="space-between" alignItems="center" >
+                    <Typography variant="h4">OUR STORE</Typography>
+                    <Typography variant="h6">Cart (0)</Typography>
+                </Grid>
+            </Toolbar>
+        </AppBar>
         </>
     )
 }
