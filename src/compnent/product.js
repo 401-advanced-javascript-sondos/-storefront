@@ -2,7 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Box, CardMedia, Container, Grid, Card, CardContent, CardActions, Button, Typography } from '@material-ui/core';
+import clsx from 'clsx';
+
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
+
+// import {reduceStock} from '../store/product';
+import { addProduct } from '../store/cart'
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -42,7 +53,27 @@ const useStyles = makeStyles((theme) => ({
     jss7: {
         paddingTop: '64px',
         paddingBottom: '64px'
-    }
+    },
+    // root: {
+    //     maxWidth: 345,
+    //   },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
 }));
 
 
@@ -51,6 +82,14 @@ const Products = props => {
 
     console.log('list', props.products)
     console.log('display', props.display)
+
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
+
     if (props.display.length == 0) {
         return (
 
@@ -83,12 +122,47 @@ const Products = props => {
                                         {product.name}
                                     </Typography>
                                     <Typography variant="p" color="textSecondary">
-                                        {product.description}
+                                        inventroy:  {product.inventory}
                                     </Typography>
                                 </CardContent>
-                                <CardActions>
-                                    <Button style={{ fontSize: '0.8125rem' }} color="primary">Add to Cart</Button>
+
+
+
+                                <CardActions disableSpacing>
+                                    <IconButton aria-label="add to favorites" onClick={() => props.addProduct(product)}>
+                                        <FavoriteIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="share">
+                                        <ShareIcon />
+                                    </IconButton>
+                                    <IconButton
+                                        className={clsx(classes.expand, {
+                                            [classes.expandOpen]: expanded,
+                                        })}
+                                        onClick={handleExpandClick}
+                                        aria-expanded={expanded}
+                                        aria-label="show more"
+                                    >
+                                        <ExpandMoreIcon />
+                                    </IconButton>
                                 </CardActions>
+                                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                    <CardContent>
+                                        <Typography paragraph>Method:</Typography>
+                                        <Typography paragraph>
+                                            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                                            minutes.
+                                        </Typography>
+
+
+                                    </CardContent>
+                                </Collapse>
+
+
+
+                                {/* <CardActions>
+                                    <Button style={{ fontSize: '0.8125rem' }} color="primary" onClick={() => props.addProduct(product)}>Add to Cart</Button>
+                                </CardActions> */}
                             </Card>
 
 
@@ -105,48 +179,85 @@ const Products = props => {
 
             <Container maxWidth="md" component="main">
 
-            <Box className={classes.jss5} textAlign="center">
-                <Typography variant="h2" color="textPrimary">
-                    {props.display.length > 0 ? props.products[0].category.toUpperCase() : ''}
-                </Typography>
-                <Typography variant="h6" color="textSecondary">
-                    {props.display.length > 0 ? 'Category Description Goes Here' : ''}
-                </Typography>
-            </Box>
+                <Box className={classes.jss5} textAlign="center">
+                    <Typography variant="h2" color="textPrimary">
+                        {props.display.length > 0 ? props.products[0].category.toUpperCase() : ''}
+                    </Typography>
+                    <Typography variant="h6" color="textSecondary">
+                        {props.display.length > 0 ? 'Category Description Goes Here' : ''}
+                    </Typography>
+                </Box>
 
-            <Grid className={classes.jss7} container spacing={0} direction="row" justify="center" alignItems="center">
-                {props.display.map(product => (
-
-                    <Grid className={classes.jss8} container item xs={12} sm={6} lg={4} >
+                <Grid className={classes.jss7} container spacing={0} direction="row" justify="center" alignItems="center">
+                    {props.display.map(product => (
 
 
-                        <Card key={product.name} className={classes.card}>
+                        <Grid className={classes.jss8} container item xs={12} sm={6} lg={4} >
 
-                            <CardMedia
-                                className={classes.media}
-                                image={product.image}
-                                title={product.name}
-                            />
-                            <CardContent>
-                                <Typography variant="h5" color="textPrimary">
-                                    {product.name}
-                                </Typography>
-                                <Typography variant="p" color="textSecondary">
-                                    {product.description}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button style={{ fontSize: '0.8125rem' }} color="primary">Add to Cart</Button>
-                            </CardActions>
-                        </Card>
+
+                            <Card key={product.name} className={classes.card}>
+
+                                <CardMedia
+                                    className={classes.media}
+                                    image={product.image}
+                                    title={product.name}
+                                />
+                                <CardContent>
+
+                                    <Typography variant="h5" color="textPrimary">
+                                        {product.name}
+                                    </Typography>
+                                    <Typography variant="p" color="textSecondary">
+                                        inventory: {product.inventory}
+                                    </Typography>
+                                </CardContent>
 
 
 
-                    </Grid>
-                ))}
+                                <CardActions disableSpacing>
+                                    <IconButton aria-label="add to favorites" onClick={() => props.addProduct(product)}>
+                                        <FavoriteIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="share">
+                                        <ShareIcon />
+                                    </IconButton>
+                                    <IconButton
+                                        className={clsx(classes.expand, {
+                                            [classes.expandOpen]: expanded,
+                                        })}
+                                        onClick={handleExpandClick}
+                                        aria-expanded={expanded}
+                                        aria-label="show more"
+                                    >
+                                        <ExpandMoreIcon />
+                                    </IconButton>
+                                </CardActions>
+                                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                    <CardContent>
+                                        <Typography paragraph>Method:</Typography>
+                                        <Typography paragraph>
+                                            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                                            minutes.
+                                        </Typography>
 
-            </Grid>
-        </Container>
+
+                                    </CardContent>
+                                </Collapse>
+
+
+{/* 
+                                <CardActions>
+                                    <Button style={{ fontSize: '0.8125rem' }} color="primary" onClick={() => props.addProduct(product)}>Add to Cart</Button>
+                                </CardActions> */}
+                            </Card>
+
+
+
+                        </Grid>
+                    ))}
+
+                </Grid>
+            </Container>
         )
     }
 
@@ -160,6 +271,10 @@ const mapStateToProps = state => {
     }
 };
 
+const mapDispatchToProps = { addProduct };
+
 
 // using connect to connect between the component and the stroe
-export default connect(mapStateToProps)(Products);
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
+
+

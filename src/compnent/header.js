@@ -1,7 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux';
+import { Link } from '@material-ui/core';
+import './style.scss'
 
 import { Grid, AppBar, CssBaseline, Toolbar, Typography  } from '@material-ui/core';
-export default function Header() {
+
+const Header=props=> {
+    console.log('headerprops',props)
     return (
         <>            
         <CssBaseline />
@@ -9,10 +14,30 @@ export default function Header() {
             <Toolbar className="">
                 <Grid container justify="space-between" alignItems="center" >
                     <Typography variant="h4">OUR STORE</Typography>
-                    <Typography variant="h6">Cart (0)</Typography>
+                    <Link to='/cart' className="a" color="primary" onClick="">
+                    <Typography variant="h6" color="white" className="cartNumber">
+                        Cart ({props.count})
+                    </Typography>
+                </Link>  
                 </Grid>
             </Toolbar>
         </AppBar>
+
+
         </>
     )
 }
+
+
+const mapStateToProps = state => {
+    return {
+      added: state.cart.productAddCart,
+      count: state.cart.count
+    }
+  };
+  
+//   const mapDispatchToProps = { removeProduct };
+  
+  
+  // using connect to connect between the component and the stroe
+  export default connect(mapStateToProps)(Header);
