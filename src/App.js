@@ -13,31 +13,31 @@ import { BrowserRouter, Route } from 'react-router-dom';
 function App() {
   return (
     <>
-      <Header/>
+      {/* <Header/>
      <Cart/>
   <Categories />
   <Product/>
  
 
-  <Footer/>
+  <Footer/> */}
 
 
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <CssBaseline >
           <Header />
           <Route path='/' exact >
-            <div className="catCart">
-              <Categories />
-              <CartMain />
-            </div>
+            <Categories />
+            <CartMain />
             <Product />
           </Route>
 
           <Route path='/cart' exact component={Cart} />
+          {/* <Route path='/cart' exact> */}
+          {/* <Cart/> */}
 
           <Footer />
         </CssBaseline>
-      </BrowserRouter> */}
+      </BrowserRouter>
     </>
   );
 }
