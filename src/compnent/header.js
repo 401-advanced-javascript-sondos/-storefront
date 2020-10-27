@@ -14,10 +14,10 @@ const Header=props=> {
             <Toolbar className="">
                 <Grid container justify="space-between" alignItems="center" >
                     <Typography variant="h4">OUR STORE</Typography>
-                    <Link to='/cart' className="a" color="primary" onClick="">
-                    <Typography variant="h6" color="white" className="cartNumber">
+                    <Link to='/cart' className="a" color="secondary" onClick="">
+                    {/* <Typography variant="h6" color="white" className="cartNumber"> */}
                         Cart ({props.count})
-                    </Typography>
+                    {/* </Typography> */}
                 </Link>  
                 </Grid>
             </Toolbar>

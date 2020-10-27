@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'initial'
     },
     jss5: {
-        padding: '64px 0px 48px'
+        padding: '0px 0px 0px'
     },
     jss7: {
         paddingTop: '64px',
@@ -93,7 +93,7 @@ const Products = props => {
     if (props.display.length == 0) {
         return (
 
-            <Container maxWidth="md" component="main">
+            <Container maxWidth="md" >
 
                 <Box className={classes.jss5} textAlign="center">
                     <Typography variant="h2" color="textPrimary">
