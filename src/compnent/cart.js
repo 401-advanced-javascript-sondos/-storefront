@@ -12,7 +12,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 
 import removeProduct from '../store/cart'
-
+import {putProduct} from '../store/product'
 const useStyles = makeStyles((theme) => ({
   '@global': {
       ul: {
@@ -119,7 +119,7 @@ const Cart = props => {
 
                   <CardMedia
                     className={classes.media}
-                    image={product.image}
+                    image={product.img}
                     title={product.name}
                   />
                   <CardContent>
@@ -127,14 +127,14 @@ const Cart = props => {
                       {product.name}
                     </Typography>
                     <Typography variant="p" color="textSecondary">
-                      count:  {product.count}
+                      {/* count:  {product.inStock-1} */}
                     </Typography>
                   </CardContent>
 
 
 
                   <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites" onClick={() => props.removeProduct(product)}>
+                    <IconButton aria-label="add to favorites" onClick={() => props.putProduct(product)}>
                       <DeleteForeverIcon />
                     </IconButton>
                     <IconButton aria-label="share">
@@ -185,7 +185,7 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = { removeProduct };
+const mapDispatchToProps = { removeProduct, putProduct };
 
 
 // using connect to connect between the component and the stroe

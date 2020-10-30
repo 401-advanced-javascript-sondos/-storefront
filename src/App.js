@@ -26,12 +26,13 @@ function App() {
         <CssBaseline >
           <Header />
           <Route path='/' exact >
+          {/* <Cart/> */}
             <Categories />
             <CartMain />
             <Product />
           </Route>
 
-          <Route path='/cart' exact component={Cart} />
+          {/* <Route path='/cart' exact component={Cart} /> */}
           {/* <Route path='/cart' exact> */}
           {/* <Cart/> */}
 

@@ -1,15 +1,11 @@
+import axios from 'axios';
+import { put } from 'superagent';
+import product from '../compnent/product';
+
 // State
 let initalState = {
 
-    products: [
-        { count: 1, name: 'TV', category: 'electronics', price: 699.00, inventory: 5, image: 'https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg' },
-        { count: 1, name: 'Radio', category: 'electronics', price: 99.00, inventory: 15, image: 'https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg' },
-        { count: 1, name: 'Shirt', category: 'clothing', price: 9.00, inventory: 25, image: 'https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg' },
-        { count: 1, name: 'Socks', category: 'clothing', price: 12.00, inventory: 10, image: 'https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg' },
-        { count: 1, name: 'Apples', category: 'food', price: .99, inventory: 500, image: 'https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg' },
-        { count: 1, name: 'Eggs', category: 'food', price: 1.99, inventory: 12, image: 'https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg' },
-        { count: 1, name: 'Bread', category: 'food', price: 2.39, inventory: 90, image: 'https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg' },
-    ],
+    products: [],
     display: [],
 };
 
@@ -22,49 +18,108 @@ export default (state = initalState, action) => {
     switch (type) {
         case 'ACTIVATE':
             let targetCategory = payload;
-            // console.log('targetCategory', targetCategory)
+            console.log('targetCategory', state.categories)
             let display = state.products.filter(product => {
                 // console.log('product.category',product.category)
-                return product.category === targetCategory && product.inventory > 0;
+                return product.category === targetCategory && product.inStock > 0;
             });
-            // console.log('DISPLAY PRODS', display);
+            console.log('DISPLAY PRODS', display);
             return { ...state, display };
 
-        case 'ADD':
-            // let namE=product.name
-            // if(payload.inventory==0)
-            // return 'dispatch'
-            console.log('payloadreduce', payload);
-            let modify = state.products.map(item => {
-                if (item.name == payload.name && item.inventory > 0) {
-                    // item.inventory--;
-                    console.log('inventoryproduct', item.inventory);
-                }
-                return item;
-            })
+        // case 'ADD':
+        //     // let namE=product.name
+        //     // if(payload.inventory==0)
+        //     // return 'dispatch'
+        //     console.log('payloadreduce', payload);
+        //     let modify = state.products.map(item => {
+        //         if (item.name == payload.name && item.inStock > 0) {
+        //             item.inStock--;
+        //             console.log('inventoryproduct', item.inventory);
+        //         }
+        //         return item;
+        //     })
+        //     return {
+        //         ...state, products: modify
+        //     }
+
+
+
+        case 'AddProduct':
+            // console.log('payloadreduce', payload);
+            // let modify = state.products.map(item => {
+            //     if (item.name == payload.name && item.inStock > 0) {
+            //         item.inStock--;
+            //         console.log('inventoryproduct', item.inventory);
+            //     }
+            //     return item;
+            // })
+            // return {
+            //     ...state, products: modify
+            // }
+
+
             return {
-                ...state, products: modify
+                ...state, products: state.products.map(product => {
+                    if (product._id === payload._id) {
+                        return payload;
+                    }
+                    return product;
+                })
             }
 
 
         case 'REMOVEPRO':
 
             // if (state.productAddCart.includes(payload)) {
-                console.log('payloadreduce', payload);
+            console.log('payloadreduce', payload);
 
-                // let edit = state.productAddCart.map(item => {
-                //     if (item.name == payload.name) {
-                //         // item.count--;
-                //         // item.inventory++;
-                //         console.log('inventory cart', item.count);
-                //     }
-                //     return item;
-                // })
+        // let edit = state.productAddCart.map(item => {
+        //     if (item.name == payload.name) {
+        //         // item.count--;
+        //         // item.inventory++;
+        //         console.log('inventory cart', item.count);
+        //     }
+        //     return item;
+        // })
 
-                // // return {productAddCart:state.productAddCart}
-                // return { ...state, productAddCart: edit }
+        // // return {productAddCart:state.productAddCart}
+        // return { ...state, productAddCart: edit }
 
-            // }
+        // }
+
+        case 'GET':
+            console.log('getproducts', payload)
+            return { ...state, products: payload };
+
+
+
+        case 'AddProduct':
+            let update = state.products.map(item => {
+                if (item.name == payload.name  ) {
+                    // item.inStock--;
+                    console.log('item', item);
+                }
+                return item;
+            })
+            return {
+                ...state, products: update
+            }
+
+
+
+        case 'DeleteProduct':
+
+
+            let modify = state.products.map(item => {
+                if (item.name == payload.name && item.inStock > 0 && product.inStock>0 ) {
+                    // item.inStock--;
+                    console.log('inventoryproduct', item);
+                }
+                return item;
+            })
+            return {
+                ...state, products: modify
+            }
 
         default:
 
@@ -82,4 +137,92 @@ export default (state = initalState, action) => {
 //         payload: name
 //     }
 // }
+
+const getAction = payload => {
+    return {
+        type: 'GET',
+        payload: payload
+    }
+}
+
+// const deleteAction = payload => {
+//     return {
+//         type: 'DeleteProduct',
+//         payload: payload
+//     }
+// }
+
+// const putAction = product => {
+//     return {
+//         type: 'AddProduct',
+//         payload: product
+//     }
+// }
+
+
+export const getProducts = () => (dispatch) => {
+    return axios.get(`http://api-testtt.herokuapp.com/api/v1/products`)
+        .then(data => {
+            console.log('data', data.data.result)
+            dispatch(getAction(data.data.result));
+        });
+};
+
+
+
+
+export const putProduct = (product) => {
+
+    return async dispatch => {
+     
+        // if (product.inStock > 0) {
+
+            product.inStock++;
+            axios({
+                method: "put",
+                url: `https://ash-todolist.herokuapp.com/products/${product._id}`,
+                data: {
+                    inStock: product.inStock +1 ,
+                },
+    
+            }).then(data => {
+                console.log('putdata', data);
+
+                dispatch({
+                    type: 'AddProduct',
+                    payload: product,
+                })
+            });
+        }
+        ;
+    // };
+};
+
+
+export const deleteProduct = product => {
+
+
+    return async dispatch => {
+        if (product.inStock > 0) {
+        product.inStock--;
+        axios({
+
+            method: "put",
+            url: `https://ash-todolist.herokuapp.com/products/${product._id}`,
+
+            data: {
+                inStock: product.inStock > 0 ? product.inStock - 1 : product.inStock,
+            },
+
+        }).then(data => {
+            console.log('delete', data)
+            dispatch({
+                type: 'DeleteProduct',
+                payload: product,
+            });
+        })
+    }
+
+    };
+};
 
