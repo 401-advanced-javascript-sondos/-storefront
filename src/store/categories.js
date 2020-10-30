@@ -1,34 +1,37 @@
+import axios from "axios";
+
 // State
 let initalState = {
+    activeCategory: "Electronics",
     categories: [
         { name: 'electronics', displayName: 'Elecronics', description: 'smart-phone' },
         { name: 'food', displayName: 'Food', description: 'apple' },
         { name: 'clothing', displayName: 'Clothing', description: 'T-shirt' },
     ],
-     products: [
-        { name: 'TV', category: 'electronics', price: 699.00, inventory : 5 },
-        { name: 'Radio', category: 'electronics', price: 99.00, inventory : 15 },
-        { name: 'Shirt', category: 'clothing', price: 9.00, inventory : 25 },
-        { name: 'Socks', category: 'clothing', price: 12.00, inventory : 10 },
-        { name: 'Apples', category: 'food', price: .99, inventory : 500 },
-        { name: 'Eggs', category: 'food', price: 1.99, inventory : 12 },
-        { name: 'Bread', category: 'food', price: 2.39, inventory : 90 },
-    ],
 
-    activeCategory: 'electronics',
+    
 };
 
 
 // reducer
 export default (state = initalState, action) => {
     let { type, payload } = action;
-    
+    console.log('active cat', state.activeCategory)
     switch (type) {
 
         case 'ACTIVATE':
-            state.activeCategory = payload;
-            console.log('active cat',state.activeCategory)
-            return { categories: state.categories, products: state.categories, activeCategory: state.activeCategory }
+            // state.activeCategory = payload;
+   
+            return {
+                ...state,
+                activeCategory: payload
+              }
+
+        case ' GET_CATEGORIES':
+            let categories = state.categories
+            categories = payload
+            // console.log('categories in get', payload)
+            return { categories }
 
         default:
             return state;
@@ -41,4 +44,21 @@ export const activate = (name) => {
         type: 'ACTIVATE',
         payload: name
     }
+}
+
+const getAction = payload => {
+    return {
+        type: ' GET_CATEGORIES',
+        payload: payload
+    }
+}
+
+
+
+export const getRemoteData = () => (dispatch) => {
+    return axios.get(`http://api-testtt.herokuapp.com/api/v1/categories`)
+    .then(data=> {
+        console.log('data',data.data.result)
+        dispatch(getAction(data.data.result));
+    });
 }

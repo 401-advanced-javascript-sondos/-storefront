@@ -16,7 +16,7 @@ const Header=props=> {
                     <Typography variant="h4">OUR STORE</Typography>
                     <Link to='/cart' className="a" color="secondary" onClick="">
                     {/* <Typography variant="h6" color="white" className="cartNumber"> */}
-                        Cart ({props.count})
+                        Cart ({props.added.length})
                     {/* </Typography> */}
                 </Link>  
                 </Grid>

@@ -28,3 +28,12 @@ Continue work on the e-Commerce storefront, breaking up the store into multiple 
 ## UML2:
 
 ![img](uml2.jpg) 
+
+
+
+## Virtual Store Phase 3:
+Connect the Virtual Store to an API to retrieve live data from your data source, using thunk to enable asynchronous actions
+
+## UML3:
+
+![img](uml3.jpg) 

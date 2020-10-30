@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { useEffect } from 'react'
 
 import { Box, CardMedia, Container, Grid, Card, CardContent, CardActions, Button, Typography } from '@material-ui/core';
 import clsx from 'clsx';
@@ -13,7 +14,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 
 // import {reduceStock} from '../store/product';
-import { addProduct } from '../store/cart'
+import { addProduct } from '../store/cart';
+import { getProducts , deleteProduct} from '../store/product';
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -80,8 +82,8 @@ const useStyles = makeStyles((theme) => ({
 const Products = props => {
     const classes = useStyles();
 
-    console.log('list', props.products)
-    console.log('display', props.display)
+    // console.log('list', props)
+    // console.log('display', props.display)
 
     const [expanded, setExpanded] = React.useState(false);
 
@@ -90,6 +92,19 @@ const Products = props => {
     };
 
 
+    const getProducts = props.getProducts;
+    useEffect(() => {
+        console.log('I am Working !!!!!!!!!!!!!!!! PRODUCTS');
+        props.getProducts();
+    }, [getProducts]);
+
+
+    let prolist = props.products.filter(product => {
+        return product.category === props.category;
+    });
+
+    console.log('prolist', prolist)
+
     if (props.display.length == 0) {
         return (
 
@@ -97,7 +112,8 @@ const Products = props => {
 
                 <Box className={classes.jss5} textAlign="center">
                     <Typography variant="h2" color="textPrimary">
-                        {props.products.length > 0 ? props.products[0].category.toUpperCase() : ''}
+                        {/* {prolist.length > 0 ? props.products[0].category.toUpperCase() : ''} */}
+                        ALL
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
                         {props.products.length > 0 ? 'Category Description Goes Here' : ''}
@@ -114,7 +130,7 @@ const Products = props => {
 
                                 <CardMedia
                                     className={classes.media}
-                                    image={product.image}
+                                    image={product.img}
                                     title={product.name}
                                 />
                                 <CardContent>
@@ -122,14 +138,14 @@ const Products = props => {
                                         {product.name}
                                     </Typography>
                                     <Typography variant="p" color="textSecondary">
-                                        inventroy:  {product.inventory}
+                                    inStock: {product.inStock}
                                     </Typography>
                                 </CardContent>
 
 
 
                                 <CardActions disableSpacing>
-                                    <IconButton aria-label="add to favorites" onClick={() => props.addProduct(product)}>
+                                    <IconButton aria-label="add to favorites" onClick={() => props.deleteProduct(product)}>
                                         <FavoriteIcon />
                                     </IconButton>
                                     <IconButton aria-label="share">
@@ -181,7 +197,7 @@ const Products = props => {
 
                 <Box className={classes.jss5} textAlign="center">
                     <Typography variant="h2" color="textPrimary">
-                        {props.display.length > 0 ? props.products[0].category.toUpperCase() : ''}
+                        {props.display.length > 0 ?props.display[0].category.toUpperCase() : ''}
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
                         {props.display.length > 0 ? 'Category Description Goes Here' : ''}
@@ -199,7 +215,7 @@ const Products = props => {
 
                                 <CardMedia
                                     className={classes.media}
-                                    image={product.image}
+                                    image={product.img}
                                     title={product.name}
                                 />
                                 <CardContent>
@@ -208,14 +224,14 @@ const Products = props => {
                                         {product.name}
                                     </Typography>
                                     <Typography variant="p" color="textSecondary">
-                                        inventory: {product.inventory}
+                                        inStock: {product.inStock}
                                     </Typography>
                                 </CardContent>
 
 
 
                                 <CardActions disableSpacing>
-                                    <IconButton aria-label="add to favorites" onClick={() => props.addProduct(product)}>
+                                    <IconButton aria-label="add to favorites" onClick={() => props.deleteProduct(product)}>
                                         <FavoriteIcon />
                                     </IconButton>
                                     <IconButton aria-label="share">
@@ -245,7 +261,7 @@ const Products = props => {
                                 </Collapse>
 
 
-{/* 
+                                {/* 
                                 <CardActions>
                                     <Button style={{ fontSize: '0.8125rem' }} color="primary" onClick={() => props.addProduct(product)}>Add to Cart</Button>
                                 </CardActions> */}
@@ -268,13 +284,15 @@ const mapStateToProps = state => {
     return {
         products: state.products.products,
         display: state.products.display,
+        category: state.categories
     }
 };
 
-const mapDispatchToProps = { addProduct };
+const mapDispatchToProps = { addProduct, getProducts, deleteProduct };
 
 
 // using connect to connect between the component and the stroe
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
+
 
 

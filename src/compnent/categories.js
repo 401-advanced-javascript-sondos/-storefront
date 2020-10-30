@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { activate } from '../store/categories.js';
-
+import { activate, getRemoteData } from '../store/categories.js';
+import {useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, ButtonGroup, Button, CssBaseline } from '@material-ui/core';
-
+// import {getRemoteData} from '../store';
 
 
 const useStyles = makeStyles({
@@ -25,7 +25,12 @@ const useStyles = makeStyles({
 
 const Categories = props => {
     const classes = useStyles();
-    console.log(props)
+    // console.log(props)
+
+    useEffect(() => {
+        console.log('I am Working !!!!!!!!!!!!!!!!CATEGORIES');
+        props.getRemoteData();
+       },[]);
 
     return (
         <>
@@ -39,7 +44,7 @@ const Categories = props => {
                                 <Button className={classes.buttonCat} onClick={() => props.activate(category.name)} key={idx}>
                                     {category.name}
                                 </Button>
-                            : {category.displayName}
+                            : {category.display_name}
                             </li>
                         })}
 
@@ -56,7 +61,7 @@ const mapStateToProps = state => ({
     list: state.categories
 });
 
-const mapDispatchToProps = { activate };
+const mapDispatchToProps = { activate, getRemoteData };
 
 // using connect to connect between the component and the stroe
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);
