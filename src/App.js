@@ -3,39 +3,36 @@ import React from 'react';
 import './App.css';
 import Header from './compnent/header';
 import Footer from './compnent/footer';
-import Product from './compnent/product';
+import Products from './compnent/products';
 import Categories from './compnent/categories';
 import Cart from './compnent/cart.js'
 import CartMain from './compnent/cartmain';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import ProductDetail from './compnent/single';
+import Checkout from './store/checkout'
 
 function App() {
   return (
     <>
-      {/* <Header/>
-     <Cart/>
-  <Categories />
-  <Product/>
- 
-
-  <Footer/> */}
-
-
       <BrowserRouter>
         <CssBaseline >
           <Header />
-          <Route path='/' exact >
-          {/* <Cart/> */}
-            <Categories />
-            <CartMain />
-            <Product />
-          </Route>
+          <CartMain />
 
-          {/* <Route path='/cart' exact component={Cart} /> */}
-          {/* <Route path='/cart' exact> */}
-          {/* <Cart/> */}
+          <Switch>
 
+            <Route exact path='/'  >
+              <Categories />
+              <Products />
+            </Route>
+
+
+            <Route exact path='/products/:id' component={ProductDetail} />
+            <Route exact path='/checkout' component={Checkout} />
+            {/* <Route path='/cart' exact> */}
+            {/* <Cart/> */}
+          </Switch>
           <Footer />
         </CssBaseline>
       </BrowserRouter>

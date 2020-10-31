@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { activate, getRemoteData } from '../store/categories.js';
+// import { activate, getRemoteData } from '../store/categories.js';
 import {useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, ButtonGroup, Button, CssBaseline } from '@material-ui/core';
 // import {getRemoteData} from '../store';
-
+import { activated, getRemoteData } from '../store/rtk/categories'
 
 const useStyles = makeStyles({
     buttonCat: {
@@ -24,13 +24,17 @@ const useStyles = makeStyles({
 });
 
 const Categories = props => {
-    const classes = useStyles();
-    // console.log(props)
+  
 
-    useEffect(() => {
+    useEffect( () => {
         console.log('I am Working !!!!!!!!!!!!!!!!CATEGORIES');
-        props.getRemoteData();
-       },[]);
+       props.getRemoteData();
+       },[props.getRemoteData]);
+
+
+       const classes = useStyles();
+       console.log('44444444444444444',props.list)
+   
 
     return (
         <>
@@ -41,7 +45,7 @@ const Categories = props => {
                     <ul>
                         {props.list.categories.map((category, idx) => {
                             return <li key={idx}>
-                                <Button className={classes.buttonCat} onClick={() => props.activate(category.name)} key={idx}>
+                                <Button className={classes.buttonCat} onClick={() => props.activated(category.name)} key={idx}>
                                     {category.name}
                                 </Button>
                             : {category.display_name}
@@ -61,7 +65,7 @@ const mapStateToProps = state => ({
     list: state.categories
 });
 
-const mapDispatchToProps = { activate, getRemoteData };
+const mapDispatchToProps = { activated, getRemoteData };
 
 // using connect to connect between the component and the stroe
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);
