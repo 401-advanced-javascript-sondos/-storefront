@@ -98,7 +98,7 @@ const Cart = props => {
     return (
       <>
 
-        <Container maxWidth="md" component="main">
+        {/* <Container maxWidth="md" component="main"> */}
 
           {/* <Box className={classes.jss5} textAlign="center">
             <Typography variant="h2" color="textPrimary">
@@ -109,7 +109,7 @@ const Cart = props => {
             </Typography>
           </Box> */}
 
-          <Grid className={classes.jss7} container spacing={0} direction="row" justify="center" alignItems="center">
+          {/* <Grid className={classes.jss7} container spacing={0} direction="row" justify="center" alignItems="center">
             {props.added.map(product => (
 
               <Grid className={classes.jss8} container item xs={12} sm={6} lg={4} >
@@ -128,7 +128,7 @@ const Cart = props => {
                     </Typography>
                     <Typography variant="p" color="textSecondary">
                       {/* count:  {product.inStock-1} */}
-                    </Typography>
+                    {/* </Typography>
                   </CardContent>
 
 
@@ -169,7 +169,7 @@ const Cart = props => {
             ))}
 
           </Grid>
-        </Container>
+        </Container> */} 
 
 
       </>
@@ -180,8 +180,8 @@ const Cart = props => {
 
 const mapStateToProps = state => {
   return {
-    added: state.cart.productAddCart,
-    count: state.cart.count
+    // added: state.cart.productAddCart,
+    // count: state.cart.count
   }
 };
 

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { put } from 'superagent';
-import product from '../compnent/product';
 
 // State
 let initalState = {
@@ -111,7 +110,7 @@ export default (state = initalState, action) => {
 
 
             let modify = state.products.map(item => {
-                if (item.name == payload.name && item.inStock > 0 && product.inStock>0 ) {
+                if (item.name == payload.name && item.inStock > 0  ) {
                     // item.inStock--;
                     console.log('inventoryproduct', item);
                 }
